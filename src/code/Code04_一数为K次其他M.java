@@ -1,6 +1,6 @@
 package code;
 
-import utils.RandomNumUtil;
+import utils.RandomUtil;
 import utils.SwapUtil;
 
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public class Code04_一数为K次其他M {
 
     public static Integer[] randomArray(int maxKinds, int range, int k, int m) {
         // 生成K数
-        int K = RandomNumUtil.randomNumber(range);
+        int K = RandomUtil.randomNumber(range);
         // set保证每个数不相等
         HashSet<Integer> set = new HashSet<>();
         set.add(K);
@@ -94,7 +94,7 @@ public class Code04_一数为K次其他M {
         while (numKinds != 0) {
             int curNum = 0;
             do {
-                curNum = RandomNumUtil.randomNumber(range);
+                curNum = RandomUtil.randomNumber(range);
             } while (set.contains(curNum));
             // 找到不同数字就加入set，并且种类减一
             set.add(curNum);
