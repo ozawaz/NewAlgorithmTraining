@@ -14,4 +14,10 @@ public class SwapUtil {
         arr[a] = arr[b];
         arr[b] = temp;
     }
+
+    public static <T> void swap(T a, T b) {
+        T temp = a;
+        a = b;
+        b = temp;
+    }
 }
