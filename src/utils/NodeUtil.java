@@ -33,4 +33,25 @@ public class NodeUtil {
             value = v;
         }
     }
+
+    /**
+     * 前缀树
+     */
+    public static class TrieNode {
+        /**
+         * 节点经过次数
+         */
+        public int pass;
+        /**
+         * 作为结尾的次数
+         */
+        public int end;
+        public TrieNode[] nexts;
+
+        public TrieNode() {
+            this.pass = 0;
+            this.end = 0;
+            this.nexts = new TrieNode[26];
+        }
+    }
 }
