@@ -55,4 +55,15 @@ public class CommonUtil {
         }
         System.out.println();
     }
+
+    /**
+     * 复制字符串数组
+     */
+    public static String[] copyStringArray(String[] arr) {
+        String[] ans = new String[arr.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = String.valueOf(arr[i]);
+        }
+        return ans;
+    }
 }

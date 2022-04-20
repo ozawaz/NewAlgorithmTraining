@@ -1,5 +1,8 @@
 package code;
 
+import utils.CommonUtil;
+import utils.RandomUtil;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.TreeSet;
@@ -83,7 +86,7 @@ public class Code12_最小字典序 {
         // 根据比较器进行排序
         Arrays.sort(strs, new MyComparator());
         // 从头到尾拼接
-        StringBuilder res = new StringBuilder("");
+        StringBuilder res = new StringBuilder();
         // 循环拼接
         for (String str : strs) {
             res.append(str);
@@ -92,42 +95,14 @@ public class Code12_最小字典序 {
         return res.toString();
     }
 
-    // 构造随机字符串
-    public static String generateRandomString(int strLen) {
-        char[] ans = new char[(int) (Math.random() * strLen) + 1];
-        for (int i = 0; i < ans.length; i++) {
-            int value = (int) (Math.random() * 5);
-            ans[i] = (Math.random() <= 0.5) ? (char) (65 + value) : (char) (97 + value);
-        }
-        return String.valueOf(ans);
-    }
-
-    // 构造随机字符串数组
-    public static String[] generateRandomStringArray(int arrLen, int strLen) {
-        String[] ans = new String[(int) (Math.random() * arrLen) + 1];
-        for (int i = 0; i < ans.length; i++) {
-            ans[i] = generateRandomString(strLen);
-        }
-        return ans;
-    }
-
-    // 复制
-    public static String[] copyStringArray(String[] arr) {
-        String[] ans = new String[arr.length];
-        for (int i = 0; i < ans.length; i++) {
-            ans[i] = String.valueOf(arr[i]);
-        }
-        return ans;
-    }
-
     public static void main(String[] args) {
         int arrLen = 6;
         int strLen = 5;
         int testTimes = 10000;
         System.out.println("test begin");
         for (int i = 0; i < testTimes; i++) {
-            String[] arr1 = generateRandomStringArray(arrLen, strLen);
-            String[] arr2 = copyStringArray(arr1);
+            String[] arr1 = RandomUtil.generateRandomStringArray(arrLen, strLen);
+            String[] arr2 = CommonUtil.copyStringArray(arr1);
             if (!lowestString(arr1).equals(lowestStringViolence(arr2))) {
                 for (String str : arr1) {
                     System.out.print(str + ",");
