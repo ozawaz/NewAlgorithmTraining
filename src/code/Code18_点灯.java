@@ -11,7 +11,7 @@ package code;
  * 返回如果点亮str中所有需要点亮的位置，至少需要几盏灯
  * @since JDK1.8
  */
-public class Code_18点灯 {
+public class Code18_点灯 {
 
     private static int minLight(String road) {
         // 字符数组
