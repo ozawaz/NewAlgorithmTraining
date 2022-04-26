@@ -17,4 +17,18 @@ public class Node {
 		nexts = new ArrayList<>();
 		edges = new ArrayList<>();
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof  Node) {
+			Node node = (Node) obj;
+			return node.value == this.value;
+		}
+		return false;
+	}
 }
