@@ -13,6 +13,10 @@ public class Edge {
 		this.to = to;
 	}
 
+	public Node getTo() {
+		return to;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
