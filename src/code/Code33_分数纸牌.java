@@ -112,9 +112,36 @@ public class Code33_分数纸牌 {
         return ans;
     }
 
+    public static int win3(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        final int n = arr.length;
+
+        int[][] f = new int[n][n];
+        int[][] g = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            f[i][i] = arr[i];
+        }
+        for (int start = 1; start < n; start++) {
+            int row = 0;
+            int col = start;
+            while(col < n) {
+                f[row][col] = Math.max(arr[row] + g[row + 1][col], arr[col] + g[row][col - 1]);
+                g[row][col] = Math.min(f[row + 1][col], f[row][col - 1]);
+
+                row++;
+                col++;
+            }
+        }
+
+        return Math.max(f[0][n - 1], g[0][n - 1]);
+    }
+
     public static void main(String[] args) {
         int[] arr = { 5, 7, 4, 5, 8, 1, 6, 0, 3, 4, 6, 1, 7 };
         System.out.println("暴力递归：" + win1(arr));
         System.out.println("递归优化：" + win2(arr));
+        System.out.println("动态规划：" + win3(arr));
     }
 }
