@@ -57,8 +57,64 @@ public class Code33_分数纸牌 {
         return Math.max(p1, p2);
     }
 
+    /**
+     * 既然有两个不同的递归函数，那么就直接定义两个缓存数组就行了，
+     * 具体定义就是f[n][n]和g[n][n]，n是数组的长度，
+     * 然后在递归函数开始前，判断是否有值，有值就可以直接返回，没有则记录下来，然后存入缓存结构。
+     */
+    public static int win2(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        final int n = arr.length;
+
+        int[][] f = new int[n][n];
+        int[][] g = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                f[i][j] = -1;
+                g[i][j] = -1;
+            }
+        }
+
+        return Math.max(f2(0, n - 1, arr, f, g), g2(0, n - 1, arr, f, g));
+    }
+
+    private static int g2(int l, int r, int[] arr, int[][] f, int[][] g) {
+        if (g[l][r] != -1) {
+            return g[l][r];
+        }
+
+        int ans = 0;
+        if (l != r) {
+            int p1 = f2(l + 1, r, arr, f, g);
+            int p2 = f2(l, r - 1, arr, f, g);
+            ans = Math.min(p1, p2);
+        }
+        g[l][r] = ans;
+        return ans;
+    }
+
+    private static int f2(int l, int r, int[] arr, int[][] f, int[][] g) {
+        if (f[l][r] != -1) {
+            return f[l][r];
+        }
+
+        int ans;
+        if (l == r) {
+            ans = arr[r];
+        } else {
+            int p1 = arr[l] + g2(l + 1, r, arr, f, g);
+            int p2 = arr[r] + g2(l, r - 1, arr, f, g);
+            ans = Math.max(p1, p2);
+        }
+        f[l][r] = ans;
+        return ans;
+    }
+
     public static void main(String[] args) {
         int[] arr = { 5, 7, 4, 5, 8, 1, 6, 0, 3, 4, 6, 1, 7 };
         System.out.println("暴力递归：" + win1(arr));
+        System.out.println("递归优化：" + win2(arr));
     }
 }
