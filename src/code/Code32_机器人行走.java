@@ -98,9 +98,37 @@ public class Code32_机器人行走 {
         return ans;
     }
 
+    public static int walk3(int n, int start, int aim, int num) {
+        if (n <= 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return start == aim ? 1 : 0;
+        }
+        int[][] dp = new int[n + 1][num + 1];
+        // 目标位置为1
+        dp[aim][0] = 1;
+        // 初始化
+        for (int j = 1; j <= num; j++) {
+            // 直接获取值，减少在循环内的判断
+            dp[1][j] = dp[2][j - 1];
+            for (int i = 2; i < n; i++) {
+                dp[i][j] = dp[i - 1][j - 1] + dp[i + 1][j - 1];
+            }
+            // 直接获取值，减少在循环内的判断
+            dp[n][j] = dp[n - 1][j - 1];
+        }
+        return dp[start][num];
+    }
+
 
     public static void main(String[] args) {
-        System.out.println("暴力递归：" + walk1(6, 4, 3, 7));
-        System.out.println("递归加缓存：" + walk2(6, 4, 3, 7));
+        final int n = 6;
+        final int start = 4;
+        final int aim = 3;
+        final int num = 7;
+        System.out.println("暴力递归：" + walk1(n, start, aim, num));
+        System.out.println("递归加缓存：" + walk2(n, start, aim, num));
+        System.out.println("动态规划：" + walk3(n, start, aim, num));
     }
 }
