@@ -50,7 +50,57 @@ public class Code32_机器人行走 {
         return process1(rest - 1, start - 1, aim, n) + process1(rest - 1, start + 1, aim, n);
     }
 
+    /**
+     * 缓存
+     * 使用一个二维数组dp[][]，其中行是n+1，列为剩余步数num+1。
+     * 然后再每次递归开始之前，判断当前是否有值，有则返回，没有则进行递归。
+     * 然后递归的过程需要定义一个int类型的ans，记录递归的返回值，然后递归结束时，使用数组记录这个值，然后返回改值。
+     */
+    public static int walk2(int n, int start, int aim, int num) {
+        if (n <= 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return start == aim ? 1 : 0;
+        }
+        int[][] dp = new int[n + 1][num + 1];
+        // 初始化
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j <= num; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        return process2(num, start, aim, n, dp);
+    }
+
+    private static int process2(int rest, int start, int aim, int n, int[][] dp) {
+        if (dp[start][rest] != -1) {
+            return dp[start][rest];
+        }
+        int ans;
+        if (rest == 0) {
+            return start == aim ? 1 : 0;
+        }
+        // 1位置向右走
+        if (start == 1) {
+            return process2(rest - 1, start + 1, aim, n, dp);
+        }
+        // n位置向左走
+        if (start == n) {
+            return process2(rest - 1, start - 1, aim, n, dp);
+        }
+        // 其余位置随便走
+        ans = process2(rest - 1, start - 1, aim, n, dp) +
+                process2(rest - 1, start + 1, aim, n, dp);
+        // 记录缓存
+        dp[start][rest] = ans;
+
+        return ans;
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(walk1(6, 4, 3, 7));
+        System.out.println("暴力递归：" + walk1(6, 4, 3, 7));
+        System.out.println("递归加缓存：" + walk2(6, 4, 3, 7));
     }
 }
