@@ -57,4 +57,17 @@ public class RandomUtil {
         }
         return ans;
     }
+
+    /**
+     * 构造随机纯数字字符串
+     * @param strLen 长度
+     * @return 返回字符擦混
+     */
+    public static String generateRandomNumberString(int strLen) {
+        char[] str = new char[strLen];
+        for (int i = 0; i < strLen; i++) {
+            str[i] = (char) ((int) (Math.random() * 10) + '0');
+        }
+        return String.valueOf(str);
+    }
 }
