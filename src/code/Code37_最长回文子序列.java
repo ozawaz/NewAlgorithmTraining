@@ -72,4 +72,33 @@ public class Code37_最长回文子序列 {
         int p4 = str[l] == str[r] ? (2 + f(str, l + 1, r - 1)) : 0;
         return Math.max(Math.max(p1, p2), Math.max(p3, p4));
     }
+
+    public int longestPalindromeSubseq3(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        char[] str = s.toCharArray();
+        int n = str.length;
+        int[][] dp = new int[n][n];
+        // 这里将递归的条件1和条件2做一个合并操作
+        dp[n - 1][n - 1] = 1;
+        for (int i = 0; i < n - 1; i++) {
+            dp[i][i] = 1;
+            // 这里的i+1，其实就是l==r-1的条件
+            dp[i][i + 1] = str[i] == str[i + 1] ? 2 : 1;
+        }
+        // 这里根据返回的结果，可以知道是需要由下到上
+        // 而这里的起始条件，根据画图就可知
+        for (int l = n - 3; l >= 0; l--) {
+            for (int r = l + 2; r < n; r++) {
+                // 可以知道，此位置不会比其他三个位置小，而左下位置会被下位置的左和左位置的下所比较
+                // 所以不需要判断左下位置
+                dp[l][r] = Math.max(dp[l][r - 1], dp[l + 1][r]);
+                if (str[l] == str[r]) {
+                    dp[l][r] = Math.max(dp[l][r], 2 + dp[l + 1][r - 1]);
+                }
+            }
+        }
+        return dp[0][n - 1];
+    }
 }
