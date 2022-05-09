@@ -17,6 +17,13 @@ public class RandomUtil {
     }
 
     /**
+     * 返回1 ~ range 的数字
+     */
+    public static int randomPositiveNumber(int range) {
+        return (int) (Math.random() * range) + 1;
+    }
+
+    /**
      * 生成随机数组
      * @param maxSize 长度
      * @param maxValue 最大值
@@ -26,6 +33,20 @@ public class RandomUtil {
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = randomNumber(maxValue);
+        }
+        return arr;
+    }
+
+    /**
+     * 生成随机正整数数组
+     * @param maxSize 长度
+     * @param maxValue 最大值
+     * @return 返回数组
+     */
+    public static int[] generateRandomPositiveArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = randomPositiveNumber(maxValue);
         }
         return arr;
     }

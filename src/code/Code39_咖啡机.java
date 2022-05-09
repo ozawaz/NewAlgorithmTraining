@@ -1,5 +1,8 @@
 package code;
 
+import utils.CommonUtil;
+import utils.RandomUtil;
+
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -64,7 +67,7 @@ public class Code39_咖啡机 {
         return drinks;
     }
 
-    public static int minTime1(int[] arr, int n, int a, int b) {
+    public static int minTime(int[] arr, int n, int a, int b, int flag) {
         if (arr == null || arr.length == 0) {
             return -1;
         }
@@ -72,7 +75,12 @@ public class Code39_咖啡机 {
         PriorityQueue<Machine> heap = initPriorityQueue(arr);
         // 所有人喝完之后的杯子
         int[] drinks = initDrinks(heap, n);
-        return bestTime(drinks, a, b, 0, 0);
+        // flag == 1，返回暴力递归结果，否则返回动态规划结果
+        if (flag == 1) {
+            return bestTime(drinks, a, b, 0, 0);
+        } else {
+            return bestTimeDp(drinks, a, b);
+        }
     }
 
     /**
@@ -107,5 +115,71 @@ public class Code39_咖啡机 {
         int p2 = Math.max(selfClean2, restClean2);
 
         return Math.min(p1, p2);
+    }
+
+    public static int bestTimeDp(int[] drinks, int wash, int air) {
+        // 数组长度
+        int n = drinks.length;
+        // 计算出free最大值
+        int maxFree = 0;
+        for (int drink : drinks) {
+            maxFree = Math.max(maxFree, drink) + wash;
+        }
+        // 数组
+        int[][] dp = new int[n + 1][maxFree + 1];
+        // 遍历
+        for (int index = n - 1; index >= 0; index--) {
+            for (int free = 0; free <= maxFree; free++) {
+                // index号杯子 决定挥发
+                // 喝完时间加上挥发时间
+                int selfClean1 = drinks[index] + air;
+                // 剩余杯子的洗干净时间
+                int restClean1 = dp[index + 1][free];
+                // 两者取最大值
+                int p1 = Math.max(selfClean1, restClean1);
+
+                // index号杯子 决定洗
+                // 比较喝完咖啡和此时机洗的空闲时间，取最大值加上清洗时间
+                int selfClean2 = Math.max(drinks[index], free) + wash;
+                if (selfClean2 > maxFree) {
+                    break; // 因为后面的也都不用填了
+                }
+                // 剩余杯子的洗干净时间
+                int restClean2 = dp[index + 1][selfClean2];
+                // 两者取最大值
+                int p2 = Math.max(selfClean2, restClean2);
+
+                dp[index][free] = Math.min(p1, p2);
+            }
+        }
+
+        return dp[0][0];
+    }
+
+    public static void main(String[] args) {
+        int maxSize = 10;
+        int maxValue = 10;
+        int testTime = 10;
+        System.out.println("测试开始");
+        for (int i = 0; i < testTime; i++) {
+            int[] arr = RandomUtil.generateRandomPositiveArray(maxSize, maxValue);
+            int n = RandomUtil.randomPositiveNumber(7);
+            int a = RandomUtil.randomPositiveNumber(7);
+            int b = RandomUtil.randomPositiveNumber(10);
+            // 暴力递归
+            int ans1 = minTime(arr, n, a, b, 1);
+            // 动态规划
+            int ans2 = minTime(arr, n, a, b, 2);
+            if (ans1 != ans2) {
+                CommonUtil.printArray(arr);
+                System.out.println("n : " + n);
+                System.out.println("a : " + a);
+                System.out.println("b : " + b);
+                System.out.println(ans1 + " , " + ans2);
+                System.out.println("===============");
+                break;
+            }
+        }
+        System.out.println("测试结束");
     }
 }
