@@ -52,6 +52,23 @@ public class RandomUtil {
     }
 
     /**
+     * 生成随机正整数二维数组
+     * @param rowSize 行长度
+     * @param colSize 列长度
+     * @param maxValue 最大值
+     * @return 返回数组
+     */
+    public static int[][] generateRandomMatrix(int rowSize, int colSize, int maxValue) {
+        int[][] matrix = new int[rowSize][colSize];
+        for (int i = 0; i < rowSize; i++) {
+            for (int j = 0; j < colSize; j++) {
+                matrix[i][j] = randomPositiveNumber(maxValue);
+            }
+        }
+        return matrix;
+    }
+
+    /**
      * 构造随机字符串
      * @param strLen 长度
      * @return 返回字符擦混
